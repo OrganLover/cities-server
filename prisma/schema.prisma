@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model City {
+  id                     Int               @id @default(autoincrement())
+  name                   String            @unique
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  connectionsAsInitiator Connection[]      @relation("initiatorRel")
+  connectionsAsApplier   Connection[]      @relation("applierRel")
+  collectionPoints       CollectionPoint[]
+  recyclePoints          RecyclePoint[]
+}
+
+model Connection {
+  id          Int      @id @default(autoincrement())
+  distance    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  initiator   City?    @relation(name: "initiatorRel", fields: [initiatorId], references: [id], onDelete: Cascade)
+  applier     City?    @relation(name: "applierRel", fields: [applierId], references: [id], onDelete: Cascade)
+  initiatorId Int?
+  applierId   Int?
+
+  @@unique([initiatorId, applierId])
+}
+
+model CollectionPoint {
+  id                    Int                              @id @default(autoincrement())
+  name                  String                           @unique
+  trashCollectionSize   Int
+  trashLeftSize         Float
+  createdAt             DateTime                         @default(now())
+  updatedAt             DateTime                         @updatedAt
+  city                  City                             @relation(fields: [cityId], references: [id])
+  cityId                Int
+  connectionWithRecycle CollectionAndRecycleConnection[]
+}
+
+model CollectionAndRecycleConnection {
+  id                Int             @id @default(autoincrement())
+  distance          Int
+  trashSize         Float           @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  collectionPoint   CollectionPoint @relation(fields: [collectionPointId], references: [id], onDelete: Cascade)
+  recyclePoint      RecyclePoint    @relation(fields: [recyclePointId], references: [id], onDelete: Cascade)
+  collectionPointId Int
+  recyclePointId    Int
+
+  @@unique([collectionPointId, recyclePointId])
+}
+
+model RecyclePoint {
+  id                       Int                              @id @default(autoincrement())
+  name                     String                           @unique
+  trashRecycleSize         Float                            @default(0)
+  createdAt                DateTime                         @default(now())
+  updatedAt                DateTime                         @updatedAt
+  city                     City                             @relation(fields: [cityId], references: [id])
+  cityId                   Int
+  connectionWithCollection CollectionAndRecycleConnection[]
+}
