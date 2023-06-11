@@ -23,8 +23,24 @@ export const updateRecyclePoint = async (id: number, input: UpdateRecyclePointIn
 
 export const getAllRecyclePoints = async () => {
   const recyclePoints = await prisma.recyclePoint.findMany({
-    include: {
-      connectionWithCollection: true,
+    select: {
+      id: true,
+      name: true,
+      city: true,
+      createdAt: true,
+      updatedAt: true,
+      trashRecycleSize: true,
+      connectionWithCollection: {
+        select: {
+          id: true,
+          collectionPoint: true,
+          recyclePoint: true,
+          distance: true,
+          createdAt: true,
+          updatedAt: true,
+          trashSize: true,
+        },
+      },
     },
   })
   return recyclePoints
@@ -35,8 +51,24 @@ export const getOneRecyclePoint = async (id: number) => {
     where: {
       id,
     },
-    include: {
-      connectionWithCollection: true,
+    select: {
+      id: true,
+      name: true,
+      city: true,
+      createdAt: true,
+      updatedAt: true,
+      trashRecycleSize: true,
+      connectionWithCollection: {
+        select: {
+          id: true,
+          collectionPoint: true,
+          recyclePoint: true,
+          distance: true,
+          createdAt: true,
+          updatedAt: true,
+          trashSize: true,
+        },
+      },
     },
   })
   return recyclePoint

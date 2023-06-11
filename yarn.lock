@@ -129,6 +129,11 @@
   resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944.tgz"
   integrity sha512-sVOig4tjGxxlYaFcXgE71f/rtFhzyYrfyfNFUsxCIEJyVKU9rdOWIlIwQ2NQ7PntvGnn+x0XuFo4OC1jvPJKzg==
 
+"@prisma/engines@4.15.0":
+  version "4.15.0"
+  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-4.15.0.tgz"
+  integrity sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.npmjs.org/@tsconfig/node10/-/node10-1.0.9.tgz"
@@ -1107,6 +1112,13 @@ pino@^8.5.0:
     safe-stable-stringify "^2.3.1"
     sonic-boom "^3.1.0"
     thread-stream "^2.0.0"
+
+prisma@*, prisma@^4.15.0:
+  version "4.15.0"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-4.15.0.tgz"
+  integrity sha512-iKZZpobPl48gTcSZVawLMQ3lEy6BnXwtoMj7hluoGFYu2kQ6F9LBuBrUyF95zRVnNo8/3KzLXJXJ5TEnLSJFiA==
+  dependencies:
+    "@prisma/engines" "4.15.0"
 
 process-warning@^1.0.0:
   version "1.0.0"
